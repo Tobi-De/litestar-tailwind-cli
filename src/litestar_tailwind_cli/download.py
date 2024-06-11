@@ -15,19 +15,15 @@ from pathlib import Path
 
 TAILWIND_CLI_VERSION = "latest"
 URL_BASE = "https://github.com/tailwindlabs/tailwindcss"
-PROJECT_ROOT = Path(__file__).parent.parent
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)8s] %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-logger = logging.getLogger("post-build")
+
+logger = logging.getLogger("tailwind-cli")
 
 
 def get_asset_url(version: str, asset_name: str) -> str:
     if version.lower() == "latest":
         return f"{URL_BASE}/releases/latest/download/{asset_name}"
     return f"{URL_BASE}/releases/download/{version}/{asset_name}"
+
 
 def asset_name(os_type: str, architecture: str) -> str:
     """Formats target name for provided OS name and CPU architecture."""
@@ -41,6 +37,7 @@ def asset_name(os_type: str, architecture: str) -> str:
     if architecture == "aarch64":
         return f"tailwindcss-{os_type}-arm64{extension}"
     raise Exception("Unknown architecture.")
+
 
 def download_asset(options: argparse.Namespace) -> None:
     version_to_install = options.version_to_install if options.version_to_install is not None else TAILWIND_CLI_VERSION
