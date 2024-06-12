@@ -55,7 +55,7 @@ class TailwindCLIPlugin(CLIPlugin):
     def server_lifespan(self, app: Litestar) -> Iterator[None]:
         import multiprocessing
         import platform
-        from litestar_tailwind_cli.cli import run_tailwind_watch_process
+        from litestar_tailwind_cli.cli import run_tailwind_watch
 
         run_using_server_lifespan = self.use_server_lifespan and app.debug
         if not run_using_server_lifespan:
@@ -66,7 +66,7 @@ class TailwindCLIPlugin(CLIPlugin):
 
         rprint("[yellow]Starting tailwind watch process[/]")
         process = multiprocessing.Process(
-            target=run_tailwind_watch_process,
+            target=run_tailwind_watch,
             args=(self.cli_path, self.src_css, self.dist_css),
         )
 

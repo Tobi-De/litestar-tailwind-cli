@@ -43,7 +43,7 @@ class TailwindCLINotInstalledError(Exception):
         super().__init__(message)
 
 
-def run_tailwind_watch_process(cli_path: Path | str, src_css: Path | str, dist_css: Path | str):
+def run_tailwind_watch(cli_path: Path | str, src_css: Path | str, dist_css: Path | str):
     with suppress(KeyboardInterrupt):
         subprocess.run(
             [
@@ -71,7 +71,7 @@ def tailwind_watch(app: Litestar):
         src_css.parent.mkdir(parents=True, exist_ok=True)
         src_css.touch()
         src_css.write_text("@tailwind base;\n@tailwind components;\n@tailwind utilities;")
-    run_tailwind_watch_process(cli_path=plugin.cli_path, src_css=plugin.src_css, dist_css=plugin.dist_css)
+    run_tailwind_watch(cli_path=plugin.cli_path, src_css=plugin.src_css, dist_css=plugin.dist_css)
 
 
 @tailwind_group.command(name="build", help="")

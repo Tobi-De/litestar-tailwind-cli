@@ -32,13 +32,9 @@ class UnknownArchitectureError(Exception):
 def asset_name() -> str:
     """Formats target name for provided OS name and CPU ARCHITECTURE."""
     extension = ".exe" if OS_TYPE == "windows" else ""
-    if ARCHITECTURE == "amd64":
+    if ARCHITECTURE in ("amd64", "x86_64"):
         return f"tailwindcss-{OS_TYPE}-x64{extension}"
-    if ARCHITECTURE == "x86_64":
-        return f"tailwindcss-{OS_TYPE}-x64{extension}"
-    if ARCHITECTURE == "arm64":
-        return f"tailwindcss-{OS_TYPE}-arm64{extension}"
-    if ARCHITECTURE == "aarch64":
+    if ARCHITECTURE in ("arm64", "aarch64"):
         return f"tailwindcss-{OS_TYPE}-arm64{extension}"
     msg = f"{OS_TYPE}, {ARCHITECTURE}"
     raise UnknownArchitectureError(msg)
