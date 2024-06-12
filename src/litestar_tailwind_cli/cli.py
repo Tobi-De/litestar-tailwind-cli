@@ -43,6 +43,12 @@ def tailwind_init(app: Litestar):
     config_file.write_text(DEFAULT_TAILWIND_CONFIG)
     rprint(f"[green]Configuration file created at {config_file}")
 
+    src_css = Path(plugin.src_css)
+    if not src_css.exists():
+        src_css.parent.mkdir(parents=True, exist_ok=True)
+        src_css.write_text("@tailwind base;\n@tailwind components;\n@tailwind utilities;")
+        rprint(f"[green]Created input css file at {src_css}")
+
 
 class TailwindCLINotInstalledError(Exception):
     def __init__(
@@ -77,14 +83,7 @@ def tailwind_watch(app: Litestar):
     if not plugin.tailwind_cli_is_installed:
         raise TailwindCLINotInstalledError
 
-    src_css = Path(plugin.src_css)
-    if not src_css.exists():
-        src_css.parent.mkdir(parents=True, exist_ok=True)
-        src_css.touch()
-        src_css.write_text("@tailwind base;\n@tailwind components;\n@tailwind utilities;")
-    run_tailwind_watch(
-        plugin=plugin,
-    )
+    run_tailwind_watch(plugin=plugin)
 
 
 @tailwind_group.command(name="build", help="")
