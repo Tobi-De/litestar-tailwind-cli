@@ -86,15 +86,6 @@ def tailwind_watch(app: Litestar):
     run_tailwind_watch(plugin=plugin)
 
 
-@tailwind_group.command(name="build", help="")
-def tailwind_build(app: Litestar):
-    from litestar_tailwind_cli import TailwindCLIPlugin
-
-    plugin = app.plugins.get(TailwindCLIPlugin)
-    if not plugin.tailwind_cli_is_installed:
-        raise TailwindCLINotInstalledError
-
-
 # shamelessy copied from https://django-tailwind-cli.andrich.me/settings/#tailwindconfigjs
 DEFAULT_TAILWIND_CONFIG = """/** @type {import('tailwindcss').Config} */
 const plugin = require("tailwindcss/plugin");
@@ -118,3 +109,26 @@ module.exports = {
   ],
 };
 """
+
+
+@tailwind_group.command(name="build", help="Build a minified production ready CSS file.")
+def tailwind_build(app: Litestar):
+    from litestar_tailwind_cli import TailwindCLIPlugin
+
+    plugin = app.plugins.get(TailwindCLIPlugin)
+    if not plugin.tailwind_cli_is_installed:
+        raise TailwindCLINotInstalledError
+
+    subprocess.run(
+        [
+            plugin.cli_path,
+            "--input",
+            plugin.src_css,
+            "--output",
+            plugin.dist_css,
+            "--config",
+            plugin.config_file,
+            "--minify",
+        ],
+        check=False,
+    )
