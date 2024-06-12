@@ -4,7 +4,6 @@ from __future__ import annotations
 import platform
 import shutil
 import stat
-import sys
 import tempfile
 import urllib.request
 from contextlib import contextmanager
@@ -19,10 +18,11 @@ OS_TYPE = platform.system().lower().replace("win32", "windows").replace("darwin"
 ARCHITECTURE = platform.machine()
 
 
-def get_asset_url(version: str, asset_name: str) -> str:
+def get_asset_url(version: str) -> str:
+    asset_name_ = asset_name()
     if version.lower() == "latest":
-        return f"{URL_BASE}/releases/latest/download/{asset_name}"
-    return f"{URL_BASE}/releases/download/{version}/{asset_name}"
+        return f"{URL_BASE}/releases/latest/download/{asset_name_}"
+    return f"{URL_BASE}/releases/download/{version}/{asset_name_}"
 
 
 class UnknownArchitectureError(Exception):
@@ -44,16 +44,15 @@ def asset_name() -> str:
     raise UnknownArchitectureError(msg)
 
 
-def download_asset(asset_url: str, tailwind_cli_bin: str) -> Path:
+def download_asset(asset_url: str, tailwind_cli_bin: str | Path) -> Path:
     file_name = Path(asset_url).name
-    bin_path = Path(sys.prefix) / "bin"
     with tempfile.TemporaryDirectory() as app_temp_dir:
         output_file = f"{app_temp_dir}/{file_name}"
         with urllib.request.urlopen(asset_url) as response, open(output_file, "wb") as out_file:
             data = response.read()
             out_file.write(data)
 
-        tailwind_cli = Path(shutil.copy(output_file, bin_path / tailwind_cli_bin))
+        tailwind_cli = Path(shutil.copy(output_file, tailwind_cli_bin))
         tailwind_cli.chmod(tailwind_cli.stat().st_mode | stat.S_IEXEC)
     return tailwind_cli
 
