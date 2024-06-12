@@ -86,7 +86,7 @@ def tailwind_watch(app: Litestar):
     run_tailwind_watch(plugin=plugin)
 
 
-# shamelessy copied from https://django-tailwind-cli.andrich.me/settings/#tailwindconfigjs
+# shamelessly copied from https://django-tailwind-cli.andrich.me/settings/#tailwindconfigjs
 DEFAULT_TAILWIND_CONFIG = """/** @type {import('tailwindcss').Config} */
 const plugin = require("tailwindcss/plugin");
 
