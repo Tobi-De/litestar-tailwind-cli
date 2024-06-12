@@ -7,7 +7,7 @@ requires = [
 
 [project]
 name = "litestar-tailwind-cli"
-description = ""
+description = "Provides a CLI plugin for Litestar to use Tailwind CSS via the Tailwind CLI."
 readme = "README.md"
 keywords = [
   "litestar",
