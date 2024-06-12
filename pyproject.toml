@@ -67,6 +67,10 @@ lint.extend-ignore = [
   "S310",
 ]
 
+lint.extend-per-file-ignores."example/*" = [
+  "INP001",
+]
+
 [tool.coverage.run]
 source_pkgs = [
   "litestar_tailwind_cli",

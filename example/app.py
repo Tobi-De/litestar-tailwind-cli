@@ -1,9 +1,10 @@
 from pathlib import Path
 
-from litestar import Litestar, get
+from litestar import get
+from litestar import Litestar
 from litestar.contrib.jinja import JinjaTemplateEngine
-from litestar.template.config import TemplateConfig
 from litestar.response import Template
+from litestar.template.config import TemplateConfig
 from litestar_tailwind_cli import TailwindCLIPlugin
 
 
@@ -21,7 +22,7 @@ async def favicon() -> str:
     )
 
 
-tailwind_cli = TailwindCLIPlugin()
+tailwind_cli = TailwindCLIPlugin(use_server_lifespan=True)
 
 app = Litestar(
     route_handlers=[index, favicon],
