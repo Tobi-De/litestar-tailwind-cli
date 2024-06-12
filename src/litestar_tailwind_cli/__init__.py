@@ -33,6 +33,7 @@ def _default_cli_path() -> Path:
 class TailwindCLIPlugin(CLIPlugin):
     src_css: str | Path = "css/input.css"
     dist_css: str | Path = "css/tailwind.css"
+    config_file: str | Path = "tailwind.config.js"
     use_server_lifespan: bool = False
     cli_version: str = "latest"
     cli_path: str | Path = field(default_factory=_default_cli_path, init=False)
@@ -67,7 +68,7 @@ class TailwindCLIPlugin(CLIPlugin):
         rprint("[yellow]Starting tailwind watch process[/]")
         process = multiprocessing.Process(
             target=run_tailwind_watch,
-            args=(self.cli_path, self.src_css, self.dist_css),
+            args=(self,),
         )
 
         try:
