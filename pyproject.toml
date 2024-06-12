@@ -1,21 +1,28 @@
 [build-system]
-requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+requires = [
+  "hatchling",
+]
 
 [project]
 name = "litestar-tailwind-cli"
-dynamic = ["version"]
-description = ''
+description = ""
 readme = "README.md"
-requires-python = ">=3.8"
+keywords = [
+  "litestar",
+  "tailwindcss",
+]
 license = "MIT"
-keywords = ["litestar", "tailwindcss"]
 authors = [
   { name = "Tobi DEGNON", email = "tobidegnon@proton.me" },
 ]
+requires-python = ">=3.8"
 classifiers = [
   "Development Status :: 4 - Beta",
+  "Intended Audience :: Developers",
   "Programming Language :: Python",
+  "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
@@ -25,20 +32,26 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
   "Topic :: Software Development",
   "Typing :: Typed",
-  "Intended Audience :: Developers",
 ]
-dependencies = ["litestar"]
+dynamic = [
+  "version",
+]
+dependencies = [
+  "litestar",
+]
 
-[project.urls]
-Documentation = "https://github.com/Tobi-De/litestar-tailwind-cli#readme"
-Issues = "https://github.com/Tobi-De/litestar-tailwind-cli/issues"
-Source = "https://github.com/Tobi-De/litestar-tailwind-cli"
+urls.Documentation = "https://github.com/Tobi-De/litestar-tailwind-cli#readme"
+urls.Issues = "https://github.com/Tobi-De/litestar-tailwind-cli/issues"
+urls.Source = "https://github.com/Tobi-De/litestar-tailwind-cli"
 
 [tool.hatch.version]
 path = "src/litestar_tailwind_cli/__about__.py"
 
 [tool.hatch.envs.default]
-dependencies = ["jinja2", "uvicorn"]
+dependencies = [
+  "jinja2",
+  "uvicorn",
+]
 
 [tool.hatch.envs.types]
 extra-dependencies = [
@@ -47,8 +60,18 @@ extra-dependencies = [
 [tool.hatch.envs.types.scripts]
 check = "mypy --install-types --non-interactive {args:src/litestar_tailwind_cli tests}"
 
+[tool.ruff]
+lint.extend-ignore = [
+  "I001",
+  "I002",
+  "S310",
+]
+
 [tool.coverage.run]
-source_pkgs = ["litestar_tailwind_cli", "tests"]
+source_pkgs = [
+  "litestar_tailwind_cli",
+  "tests",
+]
 branch = true
 parallel = true
 omit = [
@@ -56,8 +79,14 @@ omit = [
 ]
 
 [tool.coverage.paths]
-litestar_tailwind_cli = ["src/litestar_tailwind_cli", "*/litestar-tailwind-cli/src/litestar_tailwind_cli"]
-tests = ["tests", "*/litestar-tailwind-cli/tests"]
+litestar_tailwind_cli = [
+  "src/litestar_tailwind_cli",
+  "*/litestar-tailwind-cli/src/litestar_tailwind_cli",
+]
+tests = [
+  "tests",
+  "*/litestar-tailwind-cli/tests",
+]
 
 [tool.coverage.report]
 exclude_lines = [
