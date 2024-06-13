@@ -32,14 +32,21 @@ Configure and include the `TailwindCLIPlugin` in your Litestar app:
 from pathlib import Path
 
 from litestar import Litestar
+from litestar.static_files import create_static_files_router
 from litestar.contrib.jinja import JinjaTemplateEngine
 from litestar.template.config import TemplateConfig
 from litestar_tailwind_cli import TailwindCLIPlugin
 
-tailwind_cli = TailwindCLIPlugin(use_server_lifespan=True)
+ASSETS_DIR = Path("assets")
+
+tailwind_cli = TailwindCLIPlugin(
+  use_server_lifespan=True,
+  src_css=ASSETS_DIR / "css" / "input.css",
+  dist_css=ASSETS_DIR / "css" / "tailwind.css",
+)
 
 app = Litestar(
-    route_handlers=[],
+    route_handlers=[create_static_files_router(path="/static", directories=["assets"])],
     debug=True,
     plugins=[tailwind_cli],
     template_config=TemplateConfig(
@@ -47,6 +54,13 @@ app = Litestar(
         engine=JinjaTemplateEngine,
     ),
 )
+```
+
+```jinja
+<head>
+...
+  <link rel="stylesheet" href="{{ url_for('static', path='css/tailwind.css') }}">
+</head>
 ```
 
 After setting up, you can use the following commands:
