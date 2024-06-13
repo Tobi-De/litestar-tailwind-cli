@@ -59,7 +59,7 @@ app = Litestar(
 ```jinja
 <head>
 ...
-  <link rel="stylesheet" href="{{ url_for('static', path='css/tailwind.css') }}">
+  <link rel="stylesheet" href="/static/css/tailwind.css">
 </head>
 ```
 
