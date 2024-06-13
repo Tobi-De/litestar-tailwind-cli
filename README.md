@@ -69,6 +69,9 @@ After setting up, you can use the following commands:
 - `litestar tailwind watch`: This command starts the Tailwind CLI in watch mode during development. You won't have to use this if you set `use_server_lifespan` to `True`.
 - `litestar tailwind build`: This command builds a minified production-ready CSS file.
 
+> [!NOTE]
+> Don't forget to update the `content` key in `tailwind.config.js` to specify your templates directories.
+
 The `TailwindCLIPlugin` has the following configuration options:
 
 - `src_css`: The path to the source CSS file. Defaults to "css/input.css".
